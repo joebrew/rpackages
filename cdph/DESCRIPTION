@@ -1,0 +1,8 @@
+Package: cdph
+Title: This packages tests models
+Version: 0.1
+Authors@R: "Joe Brew <joebrew@gmail.com> [aut, cre]"
+Description: This packages tests models, producing truth tables and ROC curves.  Only works on models which allow for the predict() function (sorry Subho).
+Depends: R (>= 3.1.0)
+License: What license is it under?
+LazyData: true
