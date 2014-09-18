@@ -1,3 +1,7 @@
+if(!require(Hmisc)){
+ install.packages("Hmisc")
+}
+library(Hmisc)
 ########
 # VISUALIZE RESULTS OF A LOGISTIC REGRESSION MODEL IN BARPLOT WITH CI BARS
 ########
