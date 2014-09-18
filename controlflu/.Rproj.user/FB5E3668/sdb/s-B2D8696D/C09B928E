@@ -1,0 +1,16 @@
+{
+    "contents" : "#setwd(\"/home/joebrew/Documents/controlflu\")\nsetwd(\"C:/Users/BrewJR/Documents/controlflu\")\n\n#################\n# READ IN THE \"controlflu\" PACKAGE WRITTEN BY JOE\n#################\nlibrary(devtools)\ninstall_github(\"joebrew/controlflu/package/controlflu\")\n#################\n# READ DATA FROM SCRIPT 02 (merged together)\n#################\ndat <- read.csv(\"E:/fdoh/private/controlflu_private/dat.csv\")\n\n#################\n# CLEAN/FORMAT DATA\n#################\n\n# make date an R object\ndat$date <- as.Date(dat$date, format = \"%Y-%m-%d\")\n\n# make dob an R object\ndat$dob <- as.Date(dat$dob, format = \"%Y-%m-%d\")\n\n# make white the baseline in race and racebi\ndat$race <- factor(dat$race,\n                   levels = c(\"W\", \"A\", \"I\", \"M\", \"H\", \"B\"))\ndat$racebi <- factor(dat$racebi,\n                     levels = c(\"white\", \"nonwhite\"))\n\n# make notfree the baseline in lunchbi\ndat$lunchbi <- factor(dat$lunchbi,\n                      levels = c(\"notfree\", \"free\"))\n\n#################\n# LOGISTIC REGRESSION TO SEE WHO GETS VACCINATED\n#################\n# define model\nfit <- glm(v ~ racebi, \n           data = dat,\n           family=binomial(\"logit\"))\n# get ORs and confidence intervals\nfitci <- exp(cbind(OR = coef(fit), confint(fit, level = 0.95)))\n\nby(dat, dat$raceEthnicity, function(x){ \n  #prop.table(table( x[,\"year\"], x[,\"cf\"]))\n  table(x[,\"lunchbi\"])\n  })\n\n\n\n\n\n#################\n#\n#################\n\n\n\n\n\n#################\n#\n#################\n\n\n\n\n\n#################\n#\n#################\n\n\n\n\n\n#################\n#\n#################\n\n\n\n\n\n\n\n\n\n\n\n#################\n#\n#################\n\n\n\n\n\n#################\n#\n#################\n\n\n\n\n\n#################\n#\n#################\n\n\n\n\n\n#################\n#\n#################\n\n\n\n\n\n#################\n#\n#################\n\n\n\n\n\n\n",
+    "created" : 1411066066287.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "2497292314",
+    "id" : "C09B928E",
+    "lastKnownWriteTime" : 1411066221,
+    "path" : "~/controlflu/scripts/03_initial_analysis.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
