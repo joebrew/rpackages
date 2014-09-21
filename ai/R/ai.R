@@ -235,6 +235,5 @@ AssignTreatment <- function(data=NULL, seed=NULL, strata_var=NULL){
   }
 }
 
-y <- AssignTreatment(data = mydf, strata_var = "cat")
 
 
