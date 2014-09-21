@@ -1,10 +1,21 @@
 library(Hmisc)
 library(data.table)
+
+########
+# REMOVE TRAILING / LEADING WHITE SPACES
+########
+RemoveSpaces <- function(var){
+  x <- gsub("^\\s+|\\s+$", "", as.character(var))
+  return(x)
+}
+
+
 ########
 # VISUALIZE THE NUMBER OF CHARACTERS IN A VARIABLE
 ########
-SeeChars <- function(var, cex = 0.5, border = FALSE, cutoff = 1){
-  x <- table(nchar(as.character(var)))
+SeeChars <- function(var, cex = 0.5, border = FALSE, cutoff = 1, make_var = FALSE){
+  y <- RemoveSpaces(var)
+  x <- table(nchar(y))
   bp <- barplot(x, border = border)
   text(bp[,1], 0, x, pos=3, cex = cex) # ~ 5,000 have a one letter first name...
   legend(x="topright",
@@ -15,16 +26,12 @@ SeeChars <- function(var, cex = 0.5, border = FALSE, cutoff = 1){
                         "observations have\nless than or equal to",
                         cutoff,
                         "characters"))
+  if(make_var){
+    return(as.numeric(nchar(y)))
+  }
 }
 
 
-########
-# REMOVE TRAILING / LEADING WHITE SPACES
-########
-RemoveSpaces <- function(var){
-  x <- gsub("^\\s+|\\s+$", "", as.character(var))
-  return(x)
-}
 
 
 ########
@@ -47,7 +54,8 @@ MakeNA <- function(var, cutoff = 0, remove_spaces = FALSE){
 ########
 # BARPLOT AND LABEL CATEGORICAL DISTRIBUTIONS
 ########
-SeeBars <- function(var, cex = 0.5, border = FALSE, las = 1, cex.names = 0.75){
+SeeBars <- function(var, cex = 0.5, border = FALSE, las = 1, cex.names = 0.75,
+                    see_table = TRUE){
   
   x <- table(var)
   bp <- barplot(x, border = border, las = las, cex.names = cex.names)
@@ -62,13 +70,18 @@ SeeBars <- function(var, cex = 0.5, border = FALSE, las = 1, cex.names = 0.75){
        labels = paste0(round(x/sum(x)*100, digits = 2), "%"),
        cex = cex,
        col = adjustcolor("darkred", alpha.f=0.75))
+  
+  if(see_table){
+    return(x)
+  }
+  
 }
 
 ########
 # FUNCTION FOR MISSING
 ########
 Missing <- function(var){
-  ifelse(!is.na(var), 
+  ifelse(is.na(var), 
          NA,
          nchar(as.character(var)) == 0)
   
@@ -77,11 +90,11 @@ Missing <- function(var){
 ########
 # ESTABLISH WHETHER VOTED OR NOT IN A PARTICULAR COLUMN
 ########
-VoteFun <- function(var){
-  ifelse(nchar(RemoveSpaces(var)) > 0,
-         TRUE, 
-         FALSE)
-}
+# VoteFun <- function(var){
+#   ifelse(nchar(RemoveSpaces(var)) > 0,
+#          TRUE, 
+#          FALSE)
+# }
 
 ########
 # CREATE A FULL ADDRESS
@@ -98,6 +111,7 @@ MakeAddress <- function(ad,
               RemoveTrail(zip))
   return(x)
 }
+
 ########
 # RANDOMIZE ROW ORDER OF A DATAFRAME
 ########
@@ -187,13 +201,6 @@ HouseHold <- function(data, hh_id, keep_only_reps = FALSE){
   } 
   
   return(x) # return the new dataframe
-}
-
-#######
-# CALCULATE HOUSEHOLD SIZE 
-#######
-HouseHoldSize <- function(data, hh_id){
-  
 }
 
 
