@@ -160,9 +160,9 @@ DupCheck <- function(var){
 }
 
 ########
-# CREATE A HOUSEHOLD-REPRESENTATIVE DATAFRAME
+# RANDOMLY SELECT HOUSEHOLD REPS AND CALCULATE N OF PEOPLE PER HOUSEHOLD
 ########
-HouseHold <- function(data, hh_id){
+HouseHold <- function(data, hh_id, keep_only_reps = FALSE){
   
   # Randomize order of rows in data
   x <- RandomRows(df = data)
@@ -171,13 +171,31 @@ HouseHold <- function(data, hh_id){
   x$one <- 1
   
   # Calculate cumulative sum of people at that address and 
-  # assign to each person a hh_rep number (1: nPeople at that address)
+  # assign to each person a hh_rep number (1:nPeople at that address)
   x <- data.table(x)
+  
+  # ASSIGN AN INTEGER FOR EACH NUMBER AT AN ADDRESS
   x[, hh_rep := cumsum(one), by = hh_id] #"hh_rep" means "household person"
+  
+  # GET NUMBER OF PEOPLE AT EACH ADDRESS
+  x[, hh_size := max(hh_rep), by = hh_id]
+  
   x <- as.data.frame(x) # convert back to df object
   
-  return(x) # return the new householded dataframe
+  if(keep_only_reps){
+    x <- x[which(x$hh_rep == 1),]  
+  } 
+  
+  return(x) # return the new dataframe
 }
+
+#######
+# CALCULATE HOUSEHOLD SIZE 
+#######
+HouseHoldSize <- function(data, hh_id){
+  
+}
+
 
 #######
 # RANDOMLY CUT DOWN A DATAFRAME TO A SPECIFIED SIZE
