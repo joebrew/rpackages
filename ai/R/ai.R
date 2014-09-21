@@ -1,3 +1,10 @@
+if(!require(Hmisc)){
+  install.packages("Hmisc")
+}
+
+if(!require(data.table)){
+  install.packages("data.table")
+}
 library(Hmisc)
 library(data.table)
 
@@ -30,9 +37,6 @@ SeeChars <- function(var, cex = 0.5, border = FALSE, cutoff = 1, make_var = FALS
     return(as.numeric(nchar(y)))
   }
 }
-
-
-
 
 ########
 # SET TO NA ALL OBSERVATIONS WITH FEWER THAN X CHARACTERS (DEFAULT)
