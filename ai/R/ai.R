@@ -180,7 +180,9 @@ DupCheck <- function(var){
 ########
 # RANDOMLY SELECT HOUSEHOLD REPS AND CALCULATE N OF PEOPLE PER HOUSEHOLD
 ########
-HouseHold <- function(data, hh_id, keep_only_reps = FALSE){
+# !!! This function requires a var named hh_id (household id)
+
+HouseHold <- function(data, keep_only_reps = FALSE){
   
   # Randomize order of rows in data
   x <- RandomRows(df = data)
